@@ -5,6 +5,7 @@ type Node interface{
 }
 
 type NumberNode struct{
+	tokentype TokenType 
 	value interface{}
 }
 
@@ -12,6 +13,7 @@ func (numbernode NumberNode) visit(){
 }
 
 type AddNode struct{
+	tokentype TokenType
 	left Node
 	right Node
 }
@@ -28,6 +30,7 @@ func (subtractnode SubtractNode) visit(){
 }
 
 type MultiplyNode struct{
+	tokentype TokenType
 	left Node
 	right Node
 }

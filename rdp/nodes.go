@@ -1,7 +1,11 @@
 package rdp
 
+import (
+	"fmt"
+)
+
 type Node interface{
-    visit()
+    visit() interface{}
 }
 
 type NumberNode struct{
@@ -9,16 +13,22 @@ type NumberNode struct{
 	value interface{}
 }
 
-func (numbernode NumberNode) visit(){
+func (numbernode NumberNode) visit() interface{}{
+	return numbernode.value
 }
 
 type AddNode struct{
-	tokentype TokenType
+	nodetype string
 	left Node
 	right Node
 }
 
-func (addnode AddNode) visit(){
+func (addnode AddNode) visit() interface{}{
+	fmt.Println("Visiting AddNode")
+	left := addnode.left.visit()
+	right := addnode.right.visit()
+	fmt.Println(left, "|", right)
+	return 10001
 }
 
 type SubtractNode struct{
@@ -26,7 +36,8 @@ type SubtractNode struct{
 	right Node	
 }
 
-func (subtractnode SubtractNode) visit(){
+func (subtractnode SubtractNode) visit() interface{}{
+	return 1901
 }
 
 type MultiplyNode struct{
@@ -35,7 +46,8 @@ type MultiplyNode struct{
 	right Node
 }
 
-func (multiplynode MultiplyNode) visit(){
+func (multiplynode MultiplyNode) visit() interface{}{
+	return 4
 }
 
 type DivideNode struct{
@@ -43,21 +55,24 @@ type DivideNode struct{
 	right Node
 }
 
-func (dividenode DivideNode) visit(){
+func (dividenode DivideNode) visit() interface{}{
+	return 3
 }
 
 type PlusNode struct{
 	node Node
 }
 
-func (plusnode PlusNode) visit(){
+func (plusnode PlusNode) visit() interface{}{
+	return 1
 }
 
 type MinusNode struct{
 	node Node
 }
 
-func (minusnode MinusNode) visit() {
+func (minusnode MinusNode) visit() interface{}{
+	return 2
 }
 
 type ExponentNode struct{

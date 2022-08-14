@@ -10,14 +10,14 @@ type Parser struct {
 	tokens[]Token
 }
 
-func NewParser(index int, tokens []Token) *Parser{
+func NewParser(index int, tokens []Token) Parser{
 	parser := Parser{index, tokens}
-	return &parser
+	return parser
 }
 
 func (parser *Parser) current_token () Token{
-	if parser.index == len(parser.tokens){
-		parser.index--
+	if parser.index >= len(parser.tokens){
+		parser.index = len(parser.tokens)-1
 	}
 	return parser.tokens[parser.index]
 }
@@ -38,11 +38,9 @@ func (parser *Parser) Parse() Node{
 func (parser *Parser) expr() Node{
 	result := parser.term()
 	if parser.current_token().tokentype == Plus{
-		result = AddNode{parser.current_token().tokentype,result, parser.term()}
-		//parser.index++
+		result = AddNode{"Add",result, parser.term()}
 	}else if parser.current_token().tokentype == Minus{
 		result = SubtractNode{result, parser.term()}
-		//parser.index++
 	}
 	return result
 }
@@ -83,7 +81,6 @@ func (parser *Parser) factor_base() Node{
 	}else if parser.current_token().tokentype == Plus {
 		parser.index++
 		result = PlusNode{parser.factor()}
-		
 	}else if parser.current_token().tokentype == Minus {
 		parser.index++
 		result = MinusNode{parser.factor()}

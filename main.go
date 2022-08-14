@@ -15,7 +15,7 @@ func main() {
 	parser := rdp.NewParser(0, tokens)
 	tree := parser.Parse()
 	fmt.Println(tree)
-	
+
 	fmt.Println("---------------------")
 	s = `3.14 + 9 * 3`
 
@@ -24,4 +24,8 @@ func main() {
 	parser = rdp.NewParser(0, tokens)
 	tree = parser.Parse()
 	fmt.Println(tree)
+
+	interpreter := rdp.Interpreter{}
+	result := interpreter.Run(tree)
+	print(result)
 }

@@ -27,5 +27,5 @@ func main() {
 
 	interpreter := rdp.Interpreter{}
 	result := interpreter.Run(tree)
-	print(result)
+	fmt.Println(result)
 }

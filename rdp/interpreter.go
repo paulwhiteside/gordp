@@ -2,62 +2,184 @@ package rdp
 
 import(
 	"fmt"
+	"os"
 )
 
 type Interpreter struct{
 
 }
 
-func (interpreter *Interpreter) Run(node Node) interface{}{
-	//fmt.Println("interpreter.Run")
+func (interpreter *Interpreter) Eval(node Node) interface{}{
+
+	fmt.Printf("Eval %T %s\n", node, node)
 
 	var rv interface{}
-
-
 
 	switch node.(type){
 		case NumberNode:
 			rv = interpreter.evalNumberNode(node.(NumberNode))
 	    case AddNode:
 			rv = interpreter.evalAddNode(node.(AddNode))
+		case SubtractNode:
+			rv = interpreter.evalSubtractNode(node.(SubtractNode))
 		case MultiplyNode:
 			rv = interpreter.evalMultiplyNode(node.(MultiplyNode))
+		case DivideNode:
+			rv = interpreter.evalDivideNode(node.(DivideNode))
+		case MinusNode:
+			rv = interpreter.evalMinusNode(node.(MinusNode))
+		case PlusNode:
+			rv = interpreter.evalPlusNode(node.(PlusNode))
+		default:
+			fmt.Printf("SOME OTHER NODE %T\n", node)
+			os.Exit(0)
+
 	}
 
 	return rv
 }
 
 func (interpreter *Interpreter) evalNumberNode(node NumberNode) interface{}{
-	fmt.Println("evalNumberNode")
 	return node.value
 }
 
 func (interpreter *Interpreter) evalAddNode(node AddNode) interface{}{
-	fmt.Println("evalAddNode")
-	left := interpreter.Run(node.left)
-	_ = left
-	right := interpreter.Run(node.right)
-	_ = right
-	fmt.Println(left, right)
+	
+	left := interpreter.Eval(node.left)
+	right := interpreter.Eval(node.right)
 
 	var result interface{}
 
 	switch left.(type){
-	    case int:
+		case int:
 			switch right.(type){
 				case int:
 					result = left.(int) + right.(int)
-					fmt.Println(">>>", result)
+				case float64:
+					result = left.(float64) + right.(float64)
 			}
 		case float64:
-		case string:
+			switch right.(type){
+			case int:
+				result = left.(float64) + float64(right.(int))
+			case float64:
+				result = left.(float64) + right.(float64)
+			}
 	}
 
     return result
 }
 
-func (interpreter *Interpreter) evalMultiplyNode(node Node) interface{}{
-	fmt.Println("evalMultiplyNode")
-    return 123
+func (interpreter *Interpreter) evalSubtractNode(node SubtractNode) interface{}{
+	
+	left := interpreter.Eval(node.left)
+	right := interpreter.Eval(node.right)
+
+	var result interface{}
+
+	switch left.(type){
+		case int:
+			switch right.(type){
+				case int:
+					result = left.(int) - right.(int)
+				case float64:
+					result = left.(float64) - right.(float64)
+			}
+		case float64:
+			switch right.(type){
+			case int:
+				result = left.(float64) - float64(right.(int))
+			case float64:
+				result = left.(float64) - right.(float64)
+			}
+	}
+
+    return result
+}
+
+func (interpreter *Interpreter) evalMultiplyNode(node MultiplyNode) interface{}{
+	
+	fmt.Printf("evalMultiplyNode    left %T      right %T\n", node.left, node.right)
+	left := interpreter.Eval(node.left)
+	right := interpreter.Eval(node.right)
+
+	var result interface{}
+
+	fmt.Printf("switch left=%T right=%T (%s)\n", left, right, right)
+	switch left.(type){
+		case int:
+			switch right.(type){
+				case int:
+					result = left.(int) * right.(int)
+				case float64:
+					result = left.(float64) * right.(float64)
+			}
+		case float64:
+			switch right.(type){
+			case int:
+				result = left.(float64) * float64(right.(int))
+			case float64:
+				result = left.(float64) * right.(float64)
+			}
+
+	}
+
+	fmt.Println("evalMultiplyNode ->", result)
+    return result
+}
+
+func (interpreter *Interpreter) evalDivideNode(node DivideNode) interface{}{
+	
+	fmt.Printf("evalMultiplyNode    left %T      right %T\n", node.left, node.right)
+	left := interpreter.Eval(node.left)
+	right := interpreter.Eval(node.right)
+
+	var result interface{}
+
+	fmt.Printf("switch left=%T right=%T (%s)\n", left, right, right)
+	switch left.(type){
+		case int:
+			switch right.(type){
+				case int:
+					result = left.(int) / right.(int)
+				case float64:
+					result = left.(float64) / right.(float64)
+			}
+		case float64:
+			switch right.(type){
+			case int:
+				result = left.(float64) / float64(right.(int))
+			case float64:
+				result = left.(float64) / right.(float64)
+			}
+
+	}
+
+	fmt.Println("evalDivideNode ->", result)
+    return result
+}
+
+func (interpreter *Interpreter) evalMinusNode(node MinusNode) interface{}{
+	numbernode := interpreter.Eval(node.node)
+	var result interface{}
+	switch numbernode.(type){
+		case int:
+			result = int(0) - numbernode.(int)
+		case float64:
+			result = float64(0.0) - numbernode.(float64)
+	}
+	return result
+}
+
+func (interpreter *Interpreter) evalPlusNode(node PlusNode) interface{}{
+	numbernode := interpreter.Eval(node.node)
+	var result interface{}
+	switch numbernode.(type){
+		case int:
+			result = int(0) + numbernode.(int)
+		case float64:
+			result = float64(0.0) + numbernode.(float64)
+	}
+	return result
 }
 

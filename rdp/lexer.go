@@ -98,7 +98,16 @@ func Lexer(expr string) []Token{
 		v = strings.Replace(v, `""`, `"`, -1)
 	}
 	char_buffer = nil
-	tokens = append(tokens, Token{tokentype: token_type, value: v})
+	i = strings.Index(v, ".")
+	if i != -1{
+		fmt.Println("appending as float")
+		v_float, _ := strconv.ParseFloat(v,64)
+		tokens = append(tokens, Token{tokentype: token_type, value: v_float})
+	}else{
+		fmt.Println("appending as int")
+		v_int, _ := strconv.Atoi(v)
+		tokens = append(tokens, Token{tokentype: token_type, value: v_int})
+	}
 
 	return tokens
 }

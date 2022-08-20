@@ -7,8 +7,10 @@ import (
 type Node interface{
 }
 
+
+
 type NumberNode struct{
-	tokentype TokenType 
+	nodetype string
 	value interface{}
 }
 
@@ -28,21 +30,24 @@ type SubtractNode struct{
 }
 
 type MultiplyNode struct{
-	tokentype TokenType
+	nodetype string
 	left Node
 	right Node
 }
 
 type DivideNode struct{
+	nodetype string
 	left Node
 	right Node
 }
 
 type PlusNode struct{
+	nodetype string
 	node Node
 }
 
 type MinusNode struct{
+	nodetype string
 	node Node
 }
 

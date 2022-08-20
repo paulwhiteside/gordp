@@ -19,5 +19,5 @@ const (
 
 type Token struct {
 	tokentype TokenType
-	value string
+	value interface{}
 }

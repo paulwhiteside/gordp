@@ -18,7 +18,7 @@ func main() {
 	fmt.Println(tree)
 
 	*/
-	s := `(3.14 + 9) / -3`
+	s := `3.14 + 9 / -3 ^ 2`
 
 	tokens := rdp.Lexer(s)
 	fmt.Println(tokens)

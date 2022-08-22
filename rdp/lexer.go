@@ -9,6 +9,8 @@ import(
 
 func Lexer(expr string) []Token{
 
+	fmt.Println("Lexer: ", expr)
+
 	i := 0
 	var c byte
 	//var nc byte
@@ -80,6 +82,8 @@ func Lexer(expr string) []Token{
 				tokens = append(tokens, Token{tokentype: Multiply, value: string(c)})
 			}else if c == '/'{
 				tokens = append(tokens, Token{tokentype: Divide, value: string(c)})
+			}else if c == '^'{
+				tokens = append(tokens, Token{tokentype: Exponent, value: string(c)})
 			}else if c == '&'{
 				tokens = append(tokens, Token{tokentype: Ampersand, value: string(c)})
 			}else if c == '('{

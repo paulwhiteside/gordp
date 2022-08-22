@@ -52,6 +52,7 @@ type MinusNode struct{
 }
 
 type ExponentNode struct{
+	nodetype string
 	left Node
 	right Node
 }

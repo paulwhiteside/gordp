@@ -3,6 +3,7 @@ package rdp
 import(
 	"fmt"
 	"os"
+	"math"
 )
 
 type Interpreter struct{
@@ -30,6 +31,8 @@ func (interpreter *Interpreter) Eval(node Node) interface{}{
 			rv = interpreter.evalMinusNode(node.(MinusNode))
 		case PlusNode:
 			rv = interpreter.evalPlusNode(node.(PlusNode))
+		case ExponentNode:
+			rv = interpreter.evalExponentNode(node.(ExponentNode))
 		default:
 			fmt.Printf("SOME OTHER NODE %T\n", node)
 			os.Exit(0)
@@ -143,7 +146,7 @@ func (interpreter *Interpreter) evalDivideNode(node DivideNode) interface{}{
 				case int:
 					result = left.(int) / right.(int)
 				case float64:
-					result = left.(float64) / right.(float64)
+					result = float64(left.(int)) / right.(float64)
 			}
 		case float64:
 			switch right.(type){
@@ -151,6 +154,37 @@ func (interpreter *Interpreter) evalDivideNode(node DivideNode) interface{}{
 				result = left.(float64) / float64(right.(int))
 			case float64:
 				result = left.(float64) / right.(float64)
+			}
+
+	}
+
+	fmt.Println("evalDivideNode ->", result)
+    return result
+}
+
+func (interpreter *Interpreter) evalExponentNode(node ExponentNode) interface{}{
+	
+	fmt.Printf("evalMultiplyNode    left %T      right %T\n", node.left, node.right)
+	left := interpreter.Eval(node.left)
+	right := interpreter.Eval(node.right)
+
+	var result interface{}
+
+	fmt.Printf("switch left=%T right=%T (%s)\n", left, right, right)
+	switch left.(type){
+		case int:
+			switch right.(type){
+				case int:
+					result = math.Pow(float64(left.(int)), float64(right.(int)))
+				case float64:
+					result = math.Pow(left.(float64), right.(float64))
+			}
+		case float64:
+			switch right.(type){
+			case int:
+				result = math.Pow(left.(float64), float64(right.(int)))
+			case float64:
+				result = math.Pow(left.(float64), right.(float64))
 			}
 
 	}

@@ -28,7 +28,7 @@ func NewParser(index int, tokens []Token) Parser {
 func (parser *Parser) current_token() Token {
 	var current_token Token
 	if parser.index >= len(parser.tokens) {
-		current_token = Token{}
+		current_token = parser.tokens[len(parser.tokens)-1]
 	} else {
 		current_token = parser.tokens[parser.index]
 	}

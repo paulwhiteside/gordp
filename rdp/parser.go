@@ -9,7 +9,6 @@
 package rdp
 
 import (
-	"fmt"
 	"os"
 	"strconv"
 	"strings"
@@ -37,7 +36,6 @@ func (parser *Parser) current_token() Token {
 
 func (parser *Parser) incr() {
 	parser.index++
-	fmt.Printf("incr index=%d current_token=%s\n", parser.index, parser.current_token())
 }
 
 func (parser *Parser) Parse() Node {
@@ -51,13 +49,11 @@ func (parser *Parser) expr() Node {
 	current_token := parser.current_token()
 	if current_token.tokentype == Plus {
 		left := result
-		fmt.Print("A ")
 		parser.incr()
 		right := parser.term()
 		result = AddNode{"Add", left, right}
 	}
 
-	fmt.Println("returning ", result)
 	parser.incr()
 	return result
 }
@@ -69,23 +65,17 @@ func (parser *Parser) term() Node {
 	current_token := parser.current_token()
 	if current_token.tokentype == Multiply {
 		left := result
-		fmt.Print("B ")
 		parser.incr()
 		right := parser.factor()
 		result = MultiplyNode{"Multiply", left, right}
-		fmt.Print("C ")
 		parser.incr()
 	} else if current_token.tokentype == Divide {
 		left := result
-		fmt.Print("D ")
 		parser.incr()
 		right := parser.factor()
 		result = DivideNode{"Divide", left, right}
-		fmt.Print("E ")
 		parser.incr()
 	}
-
-	fmt.Println("result->", result)
 
 	return result
 }
@@ -110,15 +100,12 @@ func (parser *Parser) factor_base() Node {
 
 	current_token := parser.current_token()
 	if current_token.tokentype == LParen {
-		fmt.Print("F ")
 		parser.incr()
 		result = parser.expr()
 		current_token = parser.current_token()
 		if current_token.tokentype != RParen {
-			fmt.Printf("Error.  Expected ) got %s      %T", current_token, current_token)
 			os.Exit(0)
 		}
-		fmt.Print("G ")
 		parser.incr()
 	} else if current_token.tokentype == Number {
 		v := parser.current_token().value
@@ -130,14 +117,11 @@ func (parser *Parser) factor_base() Node {
 			v_int, _ := strconv.Atoi(v)
 			result = NumberNode{"Number", v_int}
 		}
-		fmt.Print("H ")
 		parser.incr()
 	} else if current_token.tokentype == Plus {
-		fmt.Print("I ")
 		parser.incr()
 		result = PlusNode{"Plus", parser.factor()}
 	} else if current_token.tokentype == Minus {
-		fmt.Print("J ")
 		parser.incr()
 		result = MinusNode{"Minus", parser.factor()}
 

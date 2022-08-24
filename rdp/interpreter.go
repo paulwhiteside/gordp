@@ -11,8 +11,6 @@ type Interpreter struct {
 
 func (interpreter *Interpreter) Eval(node Node) interface{} {
 
-	fmt.Printf("Eval %T %s\n", node, node)
-
 	var rv interface{}
 
 	switch node.(type) {
@@ -101,13 +99,11 @@ func (interpreter *Interpreter) evalSubtractNode(node SubtractNode) interface{} 
 
 func (interpreter *Interpreter) evalMultiplyNode(node MultiplyNode) interface{} {
 
-	fmt.Printf("evalMultiplyNode    left %T      right %T\n", node.left, node.right)
 	left := interpreter.Eval(node.left)
 	right := interpreter.Eval(node.right)
 
 	var result interface{}
 
-	fmt.Printf("switch left=%T right=%T (%s)\n", left, right, right)
 	switch left.(type) {
 	case int:
 		switch right.(type) {
@@ -126,19 +122,16 @@ func (interpreter *Interpreter) evalMultiplyNode(node MultiplyNode) interface{} 
 
 	}
 
-	fmt.Println("evalMultiplyNode ->", result)
 	return result
 }
 
 func (interpreter *Interpreter) evalDivideNode(node DivideNode) interface{} {
 
-	fmt.Printf("evalMultiplyNode    left %T      right %T\n", node.left, node.right)
 	left := interpreter.Eval(node.left)
 	right := interpreter.Eval(node.right)
 
 	var result interface{}
 
-	fmt.Printf("switch left=%T right=%T (%s)\n", left, right, right)
 	switch left.(type) {
 	case int:
 		switch right.(type) {
@@ -157,19 +150,16 @@ func (interpreter *Interpreter) evalDivideNode(node DivideNode) interface{} {
 
 	}
 
-	fmt.Println("evalDivideNode ->", result)
 	return result
 }
 
 func (interpreter *Interpreter) evalExponentNode(node ExponentNode) interface{} {
 
-	fmt.Printf("evalExponentNode    left %T      right %T\n", node.left, node.right)
 	left := interpreter.Eval(node.left)
 	right := interpreter.Eval(node.right)
 
 	var result interface{}
 
-	fmt.Printf("switch left=%T right=%T (%s)\n", left, right, right)
 	switch left.(type) {
 	case int:
 		switch right.(type) {
@@ -188,7 +178,6 @@ func (interpreter *Interpreter) evalExponentNode(node ExponentNode) interface{} 
 
 	}
 
-	fmt.Println("evalExponentNode ->", result)
 	return result
 }
 

@@ -26,9 +26,7 @@ func NewParser(index int, tokens []Token) Parser {
 
 func (parser *Parser) current_token() Token {
 	var current_token Token
-	if parser.index >= len(parser.tokens) {
-		current_token = parser.tokens[len(parser.tokens)-1]
-	} else {
+	if parser.index < len(parser.tokens) {
 		current_token = parser.tokens[parser.index]
 	}
 	return current_token
@@ -54,7 +52,6 @@ func (parser *Parser) expr() Node {
 		result = AddNode{"Add", left, right}
 	}
 
-	parser.incr()
 	return result
 }
 

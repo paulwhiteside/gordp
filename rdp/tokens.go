@@ -11,13 +11,13 @@ const (
 	Identifier TokenType = "Identifier"
 	String     TokenType = "String"
 	LParen     TokenType = "LParen"
-	RParen	   TokenType = "RParen"
-	Equals	   TokenType = "Equals"
+	RParen     TokenType = "RParen"
+	Equals     TokenType = "Equals"
 	Ampersand  TokenType = "Ampersand"
 	Exponent   TokenType = "Exponent"
 )
 
 type Token struct {
 	tokentype TokenType
-	value interface{}
+	value     string
 }

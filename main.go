@@ -7,8 +7,8 @@ import (
 
 func main() {
 	//s := `3.14 + 9 / (-3 ^ 2) + 1`
-	s := `1 + 2 + 3 + 4 + 5 + 6`
-	//s := `1 * 2 * 3 * 4.7264726`
+	//s := `1 + 2 + 3 + 4 + 5 + 6`
+	s := `1+3 * 2-8 + 7 * 3 * 4+4`
 	tokens := rdp.Lexer(s)
 	fmt.Println(tokens)
 	parser := rdp.NewParser(0, tokens)
@@ -18,7 +18,7 @@ func main() {
 
 	fmt.Println("---------------------------------------")
 	var result interface{}
-	for i := 0; i < 10000000; i++ {
+	for i := 0; i < 1000000; i++ {
 		result = interpreter.Eval(tree)
 	}
 	fmt.Println(s, "=", result)

@@ -110,7 +110,7 @@ func (interpreter *Interpreter) evalMultiplyNode(node MultiplyNode) interface{} 
 		case int:
 			result = left.(int) * right.(int)
 		case float64:
-			result = left.(float64) * right.(float64)
+			result = float64(left.(int)) * right.(float64)
 		}
 	case float64:
 		switch right.(type) {

@@ -43,13 +43,27 @@ func (parser *Parser) Parse() Node {
 
 func (parser *Parser) expr() Node {
 	var result Node
+
 	result = parser.term()
-	current_token := parser.current_token()
-	if current_token.tokentype == Plus {
-		left := result
-		parser.incr()
-		right := parser.term()
-		result = AddNode{"Add", left, right}
+
+	for parser.index < len(parser.tokens) {
+
+		current_token := parser.current_token()
+
+		if current_token.tokentype == Plus {
+			left := result
+			parser.incr()
+			right := parser.term()
+			result = AddNode{"Add", left, right}
+		} else if current_token.tokentype == Minus {
+			left := result
+			parser.incr()
+			right := parser.term()
+			result = SubtractNode{"Subtract", left, right}
+		} else {
+			break
+		}
+
 	}
 
 	return result
@@ -59,19 +73,22 @@ func (parser *Parser) term() Node {
 	var result Node
 	result = parser.factor()
 
-	current_token := parser.current_token()
-	if current_token.tokentype == Multiply {
-		left := result
-		parser.incr()
-		right := parser.factor()
-		result = MultiplyNode{"Multiply", left, right}
-		parser.incr()
-	} else if current_token.tokentype == Divide {
-		left := result
-		parser.incr()
-		right := parser.factor()
-		result = DivideNode{"Divide", left, right}
-		parser.incr()
+	for parser.index < len(parser.tokens) {
+		current_token := parser.current_token()
+		if current_token.tokentype == Multiply {
+			left := result
+			parser.incr()
+			right := parser.factor()
+			result = MultiplyNode{"Multiply", left, right}
+		} else if current_token.tokentype == Divide {
+			left := result
+			parser.incr()
+			right := parser.factor()
+			result = DivideNode{"Divide", left, right}
+		} else {
+			break
+		}
+
 	}
 
 	return result

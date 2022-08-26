@@ -4,60 +4,57 @@ import (
 	_ "fmt"
 )
 
-type Node interface{
+type Node interface {
 }
 
-
-
-type NumberNode struct{
+type NumberNode struct {
 	nodetype string
-	value interface{}
+	value    interface{}
 }
 
-func (numbernode NumberNode) visit() interface{}{
+func (numbernode NumberNode) visit() interface{} {
 	return numbernode.value
 }
 
-type AddNode struct{
+type AddNode struct {
 	nodetype string
-	left Node
-	right Node
+	left     Node
+	right    Node
 }
 
-type SubtractNode struct{
-	left Node
-	right Node	
-}
-
-type MultiplyNode struct{
+type SubtractNode struct {
 	nodetype string
-	left Node
-	right Node
+	left     Node
+	right    Node
 }
 
-type DivideNode struct{
+type MultiplyNode struct {
 	nodetype string
-	left Node
-	right Node
+	left     Node
+	right    Node
 }
 
-type PlusNode struct{
+type DivideNode struct {
 	nodetype string
-	node Node
+	left     Node
+	right    Node
 }
 
-type MinusNode struct{
+type PlusNode struct {
 	nodetype string
-	node Node
+	node     Node
 }
 
-type ExponentNode struct{
+type MinusNode struct {
 	nodetype string
-	left Node
-	right Node
+	node     Node
 }
 
-type FunctionNode struct{
-
+type ExponentNode struct {
+	nodetype string
+	left     Node
+	right    Node
 }
 
+type FunctionNode struct {
+}

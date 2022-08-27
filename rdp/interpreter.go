@@ -218,16 +218,14 @@ func (interpreter *Interpreter) evalPlusNode(node PlusNode) interface{} {
 }
 
 func (intepreter *Interpreter) evalFunctionNode(node FunctionNode) interface{} {
-	//islice := []interface{}{10, 20, 30}
-	//_ = islice
+
 	f := intepreter.functions[node.func_name]
-	//result := f(islice...)
 
 	var result interface{}
 	results := []interface{}{}
 	for _, element := range node.func_args {
-		result := intepreter.Eval(element)
-		results = append(results, result)
+		eval_result := intepreter.Eval(element)
+		results = append(results, eval_result)
 	}
 	result = f(results...)
 	return result

@@ -162,7 +162,6 @@ func (parser *Parser) function() Node {
 
 	func_name := parser.current_token().value
 	parser.incr()
-	parser.incr()
 
 	for parser.index < len(parser.tokens) {
 		parser.incr()

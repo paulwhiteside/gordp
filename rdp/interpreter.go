@@ -6,7 +6,18 @@ import (
 	"os"
 )
 
+type Function func(arg ...interface{}) interface{}
+
 type Interpreter struct {
+	functions map[string]Function
+}
+
+func NewIntrepreter() Interpreter {
+	return Interpreter{functions: make(map[string]Function)}
+}
+
+func (interpreter *Interpreter) RegisterFunction(name string, function Function) {
+	interpreter.functions[name] = function
 }
 
 func (interpreter *Interpreter) Eval(node Node) interface{} {
@@ -207,5 +218,17 @@ func (interpreter *Interpreter) evalPlusNode(node PlusNode) interface{} {
 }
 
 func (intepreter *Interpreter) evalFunctionNode(node FunctionNode) interface{} {
-	return 100
+	//islice := []interface{}{10, 20, 30}
+	//_ = islice
+	f := intepreter.functions[node.func_name]
+	//result := f(islice...)
+
+	var result interface{}
+	results := []interface{}{}
+	for _, element := range node.func_args {
+		result := intepreter.Eval(element)
+		results = append(results, result)
+	}
+	result = f(results...)
+	return result
 }

@@ -176,6 +176,6 @@ func (parser *Parser) function() Node {
 			break
 		}
 	}
-
+	fmt.Println("creating FunctionNode", func_name)
 	return FunctionNode{"function", func_name, func_args}
 }

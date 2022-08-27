@@ -1,16 +1,10 @@
 package functions
 
-import (
-	"fmt"
-)
-
 func Foo(arg ...interface{}) interface{} {
 
 	var tot float64
 	for i := range arg {
 		v := arg[i]
-
-		fmt.Println("=============================>", v)
 
 		switch v.(type) {
 		case int:
@@ -21,6 +15,5 @@ func Foo(arg ...interface{}) interface{} {
 
 	}
 
-	fmt.Println("returning", tot)
 	return tot
 }

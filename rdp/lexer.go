@@ -72,6 +72,8 @@ func Lexer(expr string) []Token {
 				tokens = append(tokens, Token{tokentype: LParen, value: string(c)})
 			} else if c == ')' {
 				tokens = append(tokens, Token{tokentype: RParen, value: string(c)})
+			} else if c == ',' {
+				tokens = append(tokens, Token{tokentype: Comma, value: string(c)})
 			}
 		}
 

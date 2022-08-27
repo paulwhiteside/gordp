@@ -57,4 +57,7 @@ type ExponentNode struct {
 }
 
 type FunctionNode struct {
+	nodetype  string
+	func_name string
+	func_args []interface{}
 }

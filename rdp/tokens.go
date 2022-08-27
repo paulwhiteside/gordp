@@ -15,6 +15,7 @@ const (
 	Equals     TokenType = "Equals"
 	Ampersand  TokenType = "Ampersand"
 	Exponent   TokenType = "Exponent"
+	Comma      TokenType = "Comma"
 )
 
 type Token struct {

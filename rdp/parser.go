@@ -9,6 +9,7 @@
 package rdp
 
 import (
+	"fmt"
 	"os"
 	"strconv"
 	"strings"
@@ -30,6 +31,14 @@ func (parser *Parser) current_token() Token {
 		current_token = parser.tokens[parser.index]
 	}
 	return current_token
+}
+
+func (parser *Parser) peek_token() Token {
+	var peek_token Token
+	if parser.index < len(parser.tokens)-1 {
+		peek_token = parser.tokens[parser.index+1]
+	}
+	return peek_token
 }
 
 func (parser *Parser) incr() {
@@ -88,7 +97,6 @@ func (parser *Parser) term() Node {
 		} else {
 			break
 		}
-
 	}
 
 	return result
@@ -97,7 +105,13 @@ func (parser *Parser) term() Node {
 func (parser *Parser) factor() Node {
 
 	var result Node
-	result = parser.factor_base()
+
+	if parser.current_token().tokentype == Identifier && parser.peek_token().tokentype == LParen {
+		fmt.Println("found a function", parser.current_token().value)
+		result = parser.function()
+	} else {
+		result = parser.factor_base()
+	}
 
 	current_token := parser.current_token()
 	if current_token.tokentype == Exponent {
@@ -138,7 +152,30 @@ func (parser *Parser) factor_base() Node {
 	} else if current_token.tokentype == Minus {
 		parser.incr()
 		result = MinusNode{"Minus", parser.factor()}
-
 	}
 	return result
+}
+
+func (parser *Parser) function() Node {
+	var func_args []interface{}
+	_ = func_args
+
+	func_name := parser.current_token().value
+	parser.incr()
+	parser.incr()
+
+	for parser.index < len(parser.tokens) {
+		parser.incr()
+		if parser.current_token().tokentype != Comma {
+			result := parser.expr()
+			func_args = append(func_args, result)
+		}
+		fmt.Println("**>", parser.current_token())
+		if parser.current_token().tokentype == RParen {
+			parser.incr() //move past the RParen
+			break
+		}
+	}
+
+	return FunctionNode{"function", func_name, func_args}
 }

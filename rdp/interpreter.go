@@ -30,10 +30,11 @@ func (interpreter *Interpreter) Eval(node Node) interface{} {
 		rv = interpreter.evalPlusNode(node.(PlusNode))
 	case ExponentNode:
 		rv = interpreter.evalExponentNode(node.(ExponentNode))
+	case FunctionNode:
+		rv = interpreter.evalFunctionNode(node.(FunctionNode))
 	default:
 		fmt.Printf("SOME OTHER NODE %T\n", node)
 		os.Exit(0)
-
 	}
 
 	return rv
@@ -56,7 +57,7 @@ func (interpreter *Interpreter) evalAddNode(node AddNode) interface{} {
 		case int:
 			result = left.(int) + right.(int)
 		case float64:
-			result = left.(float64) + right.(float64)
+			result = float64(left.(int)) + right.(float64)
 		}
 	case float64:
 		switch right.(type) {
@@ -203,4 +204,8 @@ func (interpreter *Interpreter) evalPlusNode(node PlusNode) interface{} {
 		result = float64(0.0) + numbernode.(float64)
 	}
 	return result
+}
+
+func (intepreter *Interpreter) evalFunctionNode(node FunctionNode) interface{} {
+	return 100
 }

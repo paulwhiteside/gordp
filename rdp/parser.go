@@ -9,7 +9,6 @@
 package rdp
 
 import (
-	"fmt"
 	"os"
 	"strconv"
 	"strings"
@@ -20,8 +19,8 @@ type Parser struct {
 	tokens []Token
 }
 
-func NewParser(index int, tokens []Token) Parser {
-	parser := Parser{index, tokens}
+func NewParser(tokens []Token) Parser {
+	parser := Parser{0, tokens}
 	return parser
 }
 
@@ -107,7 +106,6 @@ func (parser *Parser) factor() Node {
 	var result Node
 
 	if parser.current_token().tokentype == Identifier && parser.peek_token().tokentype == LParen {
-		fmt.Println("found a function", parser.current_token().value)
 		result = parser.function()
 	} else {
 		result = parser.factor_base()
@@ -169,12 +167,10 @@ func (parser *Parser) function() Node {
 			result := parser.expr()
 			func_args = append(func_args, result)
 		}
-		fmt.Println("**>", parser.current_token())
 		if parser.current_token().tokentype == RParen {
 			parser.incr() //move past the RParen
 			break
 		}
 	}
-	fmt.Println("creating FunctionNode", func_name)
 	return FunctionNode{"function", func_name, func_args}
 }

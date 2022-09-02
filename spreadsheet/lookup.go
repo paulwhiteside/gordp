@@ -35,7 +35,7 @@ func FromBase26(snum string) int {
 	return s
 }
 
-func ToCoords(cellref string) (int, int) {
+func CellRefToCoords(cellref string) (int, int) {
 
 	colref := ""
 	rowref := ""
@@ -60,5 +60,9 @@ func ToCoords(cellref string) (int, int) {
 	int_col := FromBase26(colref)
 	int_row, _ := strconv.Atoi(rowref)
 
-	return int_col - 1, int_row - 1
+	return int_row - 1, int_col - 1
+}
+
+func CellRefFromCoords(column, row int) string {
+	return fmt.Sprintf("%s%d", ToBase26(column+1), row+1)
 }

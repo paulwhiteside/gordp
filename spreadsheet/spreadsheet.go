@@ -5,6 +5,11 @@ import (
 	"gordp/rdp"
 )
 
+const (
+	default_rows = 100
+	default_cols = 40
+)
+
 type Cell struct {
 	interpreter *rdp.Interpreter
 	cellref     string
@@ -42,7 +47,7 @@ func (cell *Cell) GetValue() interface{} {
 type Sheet struct {
 	book  *Book
 	name  string
-	cells [2][2]*Cell
+	cells [][]*Cell
 }
 
 func (sheet Sheet) String() string {
@@ -56,13 +61,14 @@ func (sheet *Sheet) AddCell(cellref string, value interface{}, formula string) {
 	cell.value = value
 	cell.formula = formula
 
-	x, y := ToCoords(cellref)
-	sheet.cells[x][y] = cell
+	row, column := CellRefToCoords(cellref)
+	fmt.Println("row", row, "     col", column)
+	sheet.cells[row][column] = cell
 }
 
 func (sheet *Sheet) GetCell(cellref string) *Cell {
-	x, y := ToCoords("A1")
-	return sheet.cells[x][y]
+	row, column := CellRefToCoords(cellref)
+	return sheet.cells[row][column]
 }
 
 type Book struct {
@@ -86,13 +92,24 @@ func (book *Book) GetSheet(name string) Sheet {
 	return book.sheets[name]
 }
 
-func (book *Book) AddSheet(name string) {
+func (book *Book) AddSheet(name string, rows, columns int) {
 	sheet := Sheet{}
 	sheet.book = book
 	sheet.name = name
-	book.sheets[name] = sheet
-}
 
-func Test() string {
-	return "spreadsheet.test"
+	sheet.cells = make([][]*Cell, rows)
+	for i := 0; i < columns; i++ {
+		sheet.cells[i] = make([]*Cell, columns)
+	}
+
+	for row := 0; row < len(sheet.cells); row++ {
+		currentRow := sheet.cells[row]
+		for column := 0; column < len(currentRow); column++ {
+			cell := &Cell{}
+			cell.cellref = CellRefFromCoords(column, row)
+			sheet.cells[row][column] = cell
+		}
+	}
+
+	book.sheets[name] = sheet
 }

@@ -49,11 +49,11 @@ func main() {
 
 	sheet2 := mybook.GetSheet("Sheet 2")
 
-	var formula string
-	sheet2.AddCell("A1", 3.14, formula)
+	sheet2.AddCell("A1", 3.14, "")
+	fmt.Println("**>", sheet2.GetCell("A1"))
 	cell := sheet2.GetCell("A1")
 	cell.SetFormula("=2 * 7")
-
+	cell.Calculate()
 	fmt.Println("**>", sheet2.GetCell("A1"))
 
 }

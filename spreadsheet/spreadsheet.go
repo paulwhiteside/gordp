@@ -13,15 +13,8 @@ type Cell struct {
 	ast         rdp.Node
 }
 
-func NewCell(cellref string, value interface{}) *Cell {
-	cell := Cell{}
-	cell.cellref = cellref
-	cell.value = value
-	return &cell
-}
-
 func (cell Cell) String() string {
-	return fmt.Sprintf("{%T %s, formula=%s, value=%v}", cell, cell.cellref, cell.formula, cell.value)
+	return fmt.Sprintf("{%T ref=%s, formula=%s, value=%v}", cell, cell.cellref, cell.formula, cell.value)
 }
 
 func (cell *Cell) SetFormula(formula string) {
@@ -35,7 +28,11 @@ func (cell *Cell) SetFormula(formula string) {
 	}
 	parser := rdp.NewParser(tokens)
 	cell.ast = parser.Parse()
+}
+
+func (cell *Cell) Calculate() interface{} {
 	cell.value = cell.interpreter.Eval(cell.ast)
+	return cell.value
 }
 
 func (cell *Cell) GetValue() interface{} {
@@ -45,26 +42,27 @@ func (cell *Cell) GetValue() interface{} {
 type Sheet struct {
 	book  *Book
 	name  string
-	cells [2][2]Cell
+	cells [2][2]*Cell
 }
 
 func (sheet Sheet) String() string {
 	return fmt.Sprintf("{%T name=%s cells=[%d][%d]}", sheet, sheet.name, 2, 2)
 }
 
-func (sheet *Sheet) AddCell(cellref string, value interface{}, formula string) *Cell {
-	cell := Cell{}
+func (sheet *Sheet) AddCell(cellref string, value interface{}, formula string) {
+	cell := &Cell{}
 	cell.interpreter = &sheet.book.interpreter
 	cell.cellref = cellref
 	cell.value = value
 	cell.formula = formula
 
-	return &cell
+	x, y := ToCoords(cellref)
+	sheet.cells[x][y] = cell
 }
 
 func (sheet *Sheet) GetCell(cellref string) *Cell {
 	x, y := ToCoords("A1")
-	return &sheet.cells[x][y]
+	return sheet.cells[x][y]
 }
 
 type Book struct {

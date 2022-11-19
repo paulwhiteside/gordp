@@ -17,7 +17,7 @@ func main() {
 	//s := `-2 + 1`
 
 	ast := rdp.BuildAst(s)
-	fmt.Println(ast)
+	//fmt.Println(ast)
 	interpreter := rdp.NewIntrepreter()
 
 	//Register functions with the interpreter

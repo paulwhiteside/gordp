@@ -35,8 +35,8 @@ func TestTableCalculate(t *testing.T) {
 
 		result := interpreter.Eval(ast)
 
-		if result == test.expected {
-			t.Error("input: {} expected:{} result:{}", test.input, test.expected, result)
+		if result != test.expected {
+			t.Error("input:{} expected:{} result:{}", test.input, test.expected, result)
 		}
 
 	}

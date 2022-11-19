@@ -13,7 +13,7 @@ func Go() int {
 
 func main() {
 	//s := `3.14 + 9 / (-3 ^ 2) + 1`
-	s := `=1 + 2 + 3 + 4 + 5 + 6  + myfunc(1,2-1.53663763,3.14) + 500`
+	s := `=1 + 2 + 3 + 4 + 5 + 6  + sum(1,2-1.53663763,3.14) + 500`
 	//s := `1+3 * 2-8 + 7 * 3 * 4+4.44`
 
 	ast := rdp.BuildAst(s)
@@ -21,7 +21,7 @@ func main() {
 	interpreter := rdp.NewIntrepreter()
 
 	//Register functions with the interpreter
-	interpreter.RegisterFunction("myfunc", functions.Foo)
+	interpreter.RegisterFunction("sum", functions.Sum)
 
 	fmt.Println("---------------------------------------")
 	var result interface{}
@@ -30,11 +30,14 @@ func main() {
 	}
 	fmt.Println(s, "=", result)
 
+	// TODO Move this round tripping to a proper unit test
 	fmt.Println("---------------------------------------")
-	for idx := 1; idx < 60; idx++ {
+	n := 35
+	for idx := 1; idx < n; idx++ {
 		a := spreadsheet.ToBase26(idx)
 		b := spreadsheet.FromBase26(a)
-		fmt.Println(">>", idx, a, b)
+		msg := fmt.Sprintf("%2d %2s %2d", idx, a, b)
+		fmt.Println(">>", msg)
 	}
 
 	mybook := spreadsheet.NewBook()

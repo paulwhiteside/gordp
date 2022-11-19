@@ -1,6 +1,6 @@
 package functions
 
-func Foo(arg ...interface{}) interface{} {
+func Sum(arg ...interface{}) interface{} {
 
 	var tot float64
 	for i := range arg {

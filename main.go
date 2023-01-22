@@ -12,7 +12,7 @@ func Go() int {
 
 func main() {
 	//s := `3.14 + 9 / (-3 ^ 2) + 1`
-	s := `1 + 2 + 3 + 4 + 5 + 6  + sum(1,2-1.53663763,3.14) + 500`
+	s := `1 + 2 + f_1(1,2-1.53663763,foo(10,20)) + 500`
 	//s := `1+3 * 2-8 + 7 * 3 * 4+4.44`
 	//s := `-2 + 1`
 
@@ -21,7 +21,8 @@ func main() {
 	interpreter := rdp.NewIntrepreter()
 
 	//Register functions with the interpreter
-	interpreter.RegisterFunction("sum", functions.Sum)
+	interpreter.RegisterFunction("f_1", functions.Sum)
+	interpreter.RegisterFunction("foo", functions.Sum)
 
 	fmt.Println("---------------------------------------")
 	var result interface{}

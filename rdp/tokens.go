@@ -16,6 +16,7 @@ const (
 	Ampersand  TokenType = "Ampersand"
 	Exponent   TokenType = "Exponent"
 	Comma      TokenType = "Comma"
+	Func       TokenType = "Function"
 )
 
 type Token struct {

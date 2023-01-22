@@ -1,6 +1,7 @@
 package rdp
 
 import (
+	"fmt"
 	"strings"
 )
 
@@ -36,9 +37,11 @@ func Lexer(expr string) []Token {
 				is_number := (c >= '0' && c <= '9')
 				if isAZ || isaz || is_underscore || is_number {
 					char_buffer = append(char_buffer, c)
+				} else if c == '(' {
+					token_type = Func
+					i--
+					break
 				} else {
-					// didn't find anything that looks like an indentifier, move back one position
-					// so subsequent code can process this character
 					i--
 					break
 				}
@@ -59,6 +62,7 @@ func Lexer(expr string) []Token {
 			if len(char_buffer) > 0 {
 				v := string(char_buffer[:])
 				char_buffer = nil
+				fmt.Println("appending:", v, token_type)
 				tokens = append(tokens, Token{tokentype: token_type, value: v})
 
 			}

@@ -105,7 +105,7 @@ func (parser *Parser) factor() Node {
 
 	var result Node
 
-	if parser.current_token().tokentype == Identifier && parser.peek_token().tokentype == LParen {
+	if parser.current_token().tokentype == Func {
 		result = parser.function()
 	} else {
 		result = parser.factor_base()

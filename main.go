@@ -24,7 +24,7 @@ func main() {
 	interpreter.RegisterFunction("f_1", functions.Sum)
 	interpreter.RegisterFunction("foo", functions.Sum)
 
-	fmt.Println("---------------------------------------")
+	fmt.Println("****************************************")
 	var result interface{}
 	for i := 0; i < 1000000; i++ {
 		result = interpreter.Eval(ast)

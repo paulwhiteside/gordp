@@ -17,18 +17,16 @@ func main() {
 	//s := `-2 + 1`
 
 	ast := rdp.BuildAst(s)
-	//fmt.Println(ast)
 	interpreter := rdp.NewIntrepreter()
 
 	//Register functions with the interpreter
 	interpreter.RegisterFunction("f_1", functions.Sum)
 	interpreter.RegisterFunction("foo", functions.Sum)
 
-	fmt.Println("****************************************")
 	var result interface{}
-	for i := 0; i < 1000000; i++ {
-		result = interpreter.Eval(ast)
-	}
+
+	result = interpreter.Eval(ast)
+
 	fmt.Println(s, "=", result)
 
 	// TODO Move this round tripping to a proper unit test

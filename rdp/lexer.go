@@ -1,7 +1,6 @@
 package rdp
 
 import (
-	"fmt"
 	"strings"
 )
 
@@ -62,7 +61,6 @@ func Lexer(expr string) []Token {
 			if len(char_buffer) > 0 {
 				v := string(char_buffer[:])
 				char_buffer = nil
-				fmt.Println("appending:", v, token_type)
 				tokens = append(tokens, Token{tokentype: token_type, value: v})
 
 			}

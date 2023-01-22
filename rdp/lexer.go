@@ -15,13 +15,18 @@ func Lexer(expr string) []Token {
 	len_expr := len(expr)
 	for i < len_expr {
 		c = expr[i]
-		if (c >= '0' && c <= '9') || c == '.' {
+
+		is_numeric := (c >= '0' && c <= '9') || c == '.'
+		is_identifier := (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || c == '_'
+
+		if is_numeric {
 			token_type = Number
 			char_buffer = append(char_buffer, c)
-		} else if (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || c == '_' {
+		} else if is_identifier {
 			token_type = Identifier
 			char_buffer = append(char_buffer, c)
 
+			// keep consuming characters that are alphanumeric, underscore or numeric
 			for i < len_expr-1 {
 				i++
 				c = expr[i]
@@ -32,6 +37,8 @@ func Lexer(expr string) []Token {
 				if isAZ || isaz || is_underscore || is_number {
 					char_buffer = append(char_buffer, c)
 				} else {
+					// didn't find anything that looks like an indentifier, move back one position
+					// so subsequent code can process this character
 					i--
 					break
 				}
